@@ -1,0 +1,56 @@
+@import url('https://fonts.googleapis.com/css2?family=Grenze+Gotisch:wght@500&family=Roboto:wght@300&display=swap');
+* {
+    margin:0;
+    padding:0;
+    font-family: 'Roboto', sans-serif;
+}
+
+html, body {
+    height: 100%;   
+}
+
+nav {
+
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+a:hover {
+    opacity: 0.8;
+}
+
+/* TEXT-PRESETS */
+.title {
+    font-family: 'Grenze Gotisch', cursive;
+}
+
+.small {
+    font-size: 1rem;
+}
+
+.medium {
+    font-size: 1.5rem;
+}
+
+.large {
+    font-size: 2rem;
+}
+
+.verylarge {
+    font-size: 3rem;
+}
+
+
+
+/* COLOUR PALETTE */
+
+/*
+--viridian-green: #0fa3b1ff;
+--honeydew: #d9e5d6ff;
+--medium-champagne: #eddea4ff;
+--light-salmon: #f7a072ff;
+--deep-saffron: #ff9b42ff;
+*/

@@ -1,0 +1,29 @@
+{% extends 'layout.html' %}
+
+{% block head %}
+<title>Wallstreet Capitalist</title>
+<link rel="stylesheet" href=" {{ url_for('static', filename='/css/index.css') }} ">
+{% endblock %}
+
+
+
+{% block body %}
+<div class="wrapper">
+    <div>
+        <h1 class="title verylarge">WSC</h1>
+        <form action="#" method="POST" class="pure-form pure-form-stacked" autocomplete="off">
+            <input id="stacked-email" type="text" name="username" placeholder="Username" required>
+            <input id="stacked-password" type="password" name="password" placeholder="Password" required>
+            <input type="submit" value="Login" class="pure-button pure-button-primary">
+            <br><br>
+            <p><a href="#">Register a new user</a></p>
+        </form>
+    </div>
+</div>
+<section id="right-ge"></section>
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="{{ url_for('static', filename='/js/index.js') }}"
+{% endblock %}

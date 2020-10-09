@@ -1,0 +1,33 @@
+body {
+    background-color: #0fa3b1ff;
+}
+
+.wrapper {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+h1 {
+    width: 100%;
+    color: white;
+}
+
+#right-ge {
+    width: 30%;
+    height: 0;
+    right:0;
+    top:0;
+    
+    border-top: 100vh solid #eddea4ff;
+    border-left: 15vw solid transparent;
+    position: fixed;
+}
+
+form {
+    width: 100%;
+    margin: auto;
+}
