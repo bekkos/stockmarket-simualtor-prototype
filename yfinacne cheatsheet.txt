@@ -1,0 +1,23 @@
+marketCap = marketcap
+dayLow = daylow
+ask = Current Prize
+askSize = Current ask size
+volume = volume
+bid = Current Lowest Bid
+bidSize = Current Bid Size
+dayHigh = day high
+shortName = Short Name
+longName = Long Name
+symbol = abbr
+
+
+#Class CheatSheet
+ask = currentPrice
+askSize = currentAskSize
+bid = currentBid
+bidSize = currentBidSize
+dayHigh = dayHigh
+dayLow = dayLow
+shortName = shortName
+symbol = symbol
+volume = volume

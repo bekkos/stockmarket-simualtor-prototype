@@ -1,0 +1,58 @@
+{% extends 'layout.html' %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='/css/summary.css') }}">
+{% endblock %}
+
+{% block body %}
+<nav>
+    <h1><a href="/home">BACK</a></h1>
+</nav>
+<section class="wrapper">
+    <table class="pure-table pure-table-horizontal">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Buy Date</th>
+                <th>Buy Price</th>
+                <th>Amount</th>
+                <th>Sell Price</th>
+                <th>Profit</th>
+                <th>Options</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr>
+                <th>Tesla, Inc.</th>
+                <th>09.10.2020</th>
+                <th>$ 499</th>
+                <th>35</th>
+                <th>$ 503</th>
+                <th>$ 34823</th>
+                <th><button class="pure-button button-success">SELL</button></th>
+            </tr>
+
+            <tr>
+                <th>Tesla, Inc.</th>
+                <th>09.10.2020</th>
+                <th>$ 499</th>
+                <th>35</th>
+                <th>$ 503</th>
+                <th>$ 34823</th>
+                <th><button class="pure-button button-success">SELL</button></th>
+            </tr>
+
+            <tr>
+                <th>Tesla, Inc.</th>
+                <th>09.10.2020</th>
+                <th>$ 499</th>
+                <th>35</th>
+                <th>$ 503</th>
+                <th>$ 34823</th>
+                <th><button class="pure-button button-success">SELL</button></th>
+            </tr>
+        </tbody>
+    </table>
+</section>
+{% endblock %}

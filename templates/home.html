@@ -1,0 +1,25 @@
+{% extends 'layout.html' %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='/css/home.css') }}">
+{% endblock %}
+
+
+{% block body %}
+<div class="wrapper pure-g">
+    <div class="pure-u-1-4 item" id="summaryBtn">
+        <h1>Summary</h1>
+    </div>
+    <div class="pure-u-1-4 item" id="buysellBtn">
+        <h1>Buy/Sell</h1>
+    </div>
+    <div class="pure-u-1-4 item" id="lookupBtn">
+        <h1>Stock Lookup</h1>
+    </div>
+    <div class="pure-u-1-4 item" id="logoutBtn">
+        <h1>Logout</h1>
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="{{ url_for('static', filename='/js/home.js') }}"></script>
+{% endblock %}
