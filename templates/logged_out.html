@@ -1,0 +1,23 @@
+{% extends 'layout.html' %}
+
+{% block head %}
+<title>Wallstreet Capitalist</title>
+<link rel="stylesheet" href=" {{ url_for('static', filename='/css/index.css') }} ">
+{% endblock %}
+
+
+
+{% block body %}
+<div class="wrapper">
+    <div>
+        <h1 class="title verylarge">You have been logged out.</h1>
+        <p><a href="/">Click here </a>to go to log back in.</p>
+    </div>
+</div>
+<section id="right-ge"></section>
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="{{ url_for('static', filename='/js/index.js') }}"></script>
+{% endblock %}

@@ -14,9 +14,10 @@
         <form action="#" method="POST" class="pure-form pure-form-stacked" autocomplete="off">
             <input id="stacked-email" type="text" name="username" placeholder="Username" required>
             <input id="stacked-password" type="password" name="password" placeholder="Password" required>
-            <input type="submit" value="Login" class="pure-button pure-button-primary">
+            <input id="stacked-email" type="email" name="email" placeholder="Email" required>
+            <input type="submit" value="Register" class="pure-button pure-button-primary">
             <br><br>
-            <p><a href="/register">Register a new user</a></p>
+            <p><a href="/">Already got a user?</a></p>
             <br><br>
             {% with messages = get_flashed_messages() %}
             {% if messages %}
