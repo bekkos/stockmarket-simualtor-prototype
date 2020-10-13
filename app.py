@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash, g
 from flask_sqlalchemy import SQLAlchemy
-from datetime import timedelta, date
+from datetime import timedelta, date, datetime
 import time
 import hashlib
 import yfinance as yf
@@ -128,9 +128,7 @@ class Purchase():
             return True
         else:
             return False
-    
-       
-        
+     
 
 #Before Request
 @app.before_request
@@ -172,7 +170,8 @@ def home():
 @app.route('/summary')
 def summary():
     if session.get('logged_in'):
-        return render_template('summary.html')
+        stocks = ActiveStocks.query.filter_by(owner_id=session.get('user_id')).all()
+        return render_template('summary.html', stocks=stocks, Stock=Stock, datetime=datetime)
     else:
         return redirect(url_for('index'))
 
@@ -209,11 +208,13 @@ def logout():
 @app.route('/test')
 def test():
     if session.get('logged_in'):
-        stock = Stock("TSLA")
-        purchase = Purchase(stock, 3, session.get('user_id'))
+        stock = Stock("ALKS")
+        purchase = Purchase(stock, 500, session.get('user_id'))
         if purchase.validate():
-            purchase.completePurchase()
-            return "Purchase complete."
+            if purchase.completePurchase():
+                return "Purchase Completed"
+            else:
+                return "Not enough $$$"
     else:
         return redirect(url_for("index"))
 

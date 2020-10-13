@@ -23,35 +23,21 @@
         </thead>
 
         <tbody>
+            {% for stock in stocks %}
             <tr>
-                <th>Tesla, Inc.</th>
-                <th>09.10.2020</th>
-                <th>$ 499</th>
-                <th>35</th>
-                <th>$ 503</th>
-                <th>$ 34823</th>
+                <th>{{ stock.name }}</th>
+                {% set time = datetime.fromtimestamp(stock.buyTime|int) %}
+                <th>{{ time }}</th>
+                <th>$ {{ stock.buyPrice }}</th>
+                <th>{{ stock.amount }}</th>
+                {% set unnecessaryCompelxWayOfDoingThis = Stock(stock.abbr) %}
+                <th>$ {{ unnecessaryCompelxWayOfDoingThis.currentPrice }}</th>
+                <th>$ {{'%0.2f' | format(unnecessaryCompelxWayOfDoingThis.currentPrice * stock.amount - stock.buyPrice|float * stock.amount) }}</th>
                 <th><button class="pure-button button-success">SELL</button></th>
             </tr>
+            {% endfor %}
 
-            <tr>
-                <th>Tesla, Inc.</th>
-                <th>09.10.2020</th>
-                <th>$ 499</th>
-                <th>35</th>
-                <th>$ 503</th>
-                <th>$ 34823</th>
-                <th><button class="pure-button button-success">SELL</button></th>
-            </tr>
-
-            <tr>
-                <th>Tesla, Inc.</th>
-                <th>09.10.2020</th>
-                <th>$ 499</th>
-                <th>35</th>
-                <th>$ 503</th>
-                <th>$ 34823</th>
-                <th><button class="pure-button button-success">SELL</button></th>
-            </tr>
+           
         </tbody>
     </table>
 </section>
