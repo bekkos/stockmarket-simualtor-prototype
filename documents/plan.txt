@@ -1,0 +1,33 @@
+#TO-DO
+- Figure out why ask and bid price can be at 0
+- Make a class for purchases that takes in a stock object, processess the purchase and adds a 
+  new active stock to the ActiveStock database.
+- 
+
+
+#Documentation
+
+- Stock class
+
+The stock class takes a stock symbol e.g(TSLA), and
+creates an object that contains all neccessary
+information about the corresponding stock, such
+as ask and bid prices and sizes, name and dayHigh/Lows.
+
+- Purchase class
+
+The purchase class is a class used to perform
+purchases, it takes a stock object, amount and an
+owner id. It has two methods,
+validate() and completePurchase().
+
+The validate method ensures that the stockmarket is
+open, that there is an askSize and that the askPrice
+is not 0. Returns true or false
+
+The compeltePurchase method takes money from the user
+wallet and adds a new row to the ActiveStocks table
+with the correct information.
+If the user does not have enough money in their
+wallet it will retun false, otherwise it will return 
+true.

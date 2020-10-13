@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash, g
 from flask_sqlalchemy import SQLAlchemy
 from datetime import timedelta, date
+import time
 import hashlib
 import yfinance as yf
 import matplotlib
@@ -97,6 +98,38 @@ class Stock():
         fname = "./static/img/" + self.symbol + ".png"
         plt.savefig(fname, dpi=None, facecolor='w', edgecolor='w',
         orientation='landscape')
+
+class Purchase():
+    def __init__(self, stock, amount, owner_id):
+        self.stock = stock
+        self.amount = amount
+        self.owner_id = owner_id
+
+
+    def validate(self):
+        if self.stock.currentPrice >= 1:
+            return True
+        else:
+            return False
+
+    def completePurchase(self):
+        user = User.query.get(session.get('user_id'))
+        price = self.stock.currentPrice * self.amount
+        brookagePrice = 5 * price / 100
+        totalPrice = price + brookagePrice
+        if totalPrice <= user.wallet:
+            user.wallet = user.wallet - totalPrice
+            activeStock = ActiveStocks(
+                owner_id=session.get('user_id'), name=self.stock.shortName, abbr=self.stock.symbol,
+                buyPrice=self.stock.currentPrice,buyTime=time.time(),amount=self.amount
+                )
+            db.session.add(activeStock)
+            db.session.commit()
+            return True
+        else:
+            return False
+    
+       
         
 
 #Before Request
@@ -172,6 +205,17 @@ def logout():
     session.pop('user_id', None)
     return render_template('logged_out.html')
 
+
+@app.route('/test')
+def test():
+    if session.get('logged_in'):
+        stock = Stock("TSLA")
+        purchase = Purchase(stock, 3, session.get('user_id'))
+        if purchase.validate():
+            purchase.completePurchase()
+            return "Purchase complete."
+    else:
+        return redirect(url_for("index"))
 
 #Error handling
 @app.errorhandler(404)
