@@ -13,6 +13,12 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-wrap: wrap;
+}
+
+h3 {
+    width: 100%;
+    text-align: center;
 }
 
 nav {

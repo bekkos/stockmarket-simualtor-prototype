@@ -82,7 +82,7 @@ class Stock():
 
     def __init__(self, abbr):
         self.cs = yf.Ticker(abbr)
-        self.currentPrice = self.cs.info['ask']
+        self.currentPrice = self.cs.info['regularMarketPrice']
         self.dayHigh = self.cs.info['dayHigh']
         self.dayLow = self.cs.info['dayLow']
         self.currentAskSize = self.cs.info['askSize']
@@ -91,6 +91,7 @@ class Stock():
         self.shortName = self.cs.info['shortName']
         self.symbol = self.cs.info['symbol']
         self.volume = self.cs.info['volume']
+        self.marketClose = self.cs.info['previousClose']
     
     def plotData(self):
         data = yf.download(self.symbol,'2020-01-01', date.today())
@@ -114,7 +115,7 @@ class Purchase():
 
     def completePurchase(self):
         user = User.query.get(session.get('user_id'))
-        price = self.stock.currentPrice * self.amount
+        price = self.stock.currentPrice * float(self.amount)
         brookagePrice = 5 * price / 100
         totalPrice = price + brookagePrice
         if totalPrice <= user.wallet:
@@ -171,7 +172,8 @@ def home():
 def summary():
     if session.get('logged_in'):
         stocks = ActiveStocks.query.filter_by(owner_id=session.get('user_id')).all()
-        return render_template('summary.html', stocks=stocks, Stock=Stock, datetime=datetime)
+        user = User.query.get(session.get('user_id'))
+        return render_template('summary.html', stocks=stocks, Stock=Stock, datetime=datetime, user=user)
     else:
         return redirect(url_for('index'))
 
@@ -185,11 +187,25 @@ def lookup():
                 abbr = request.form.get('abbr')
                 try:
                     stock = Stock(abbr)
+                    session['cs'] = abbr
                 except:
                     flash("Stock not found.")
                     return render_template('lookup.html')
                 stock.plotData()
                 return render_template('lookup.html', stock=stock)
+            else:
+                if request.form.get('amount'):
+                    amount = request.form.get('amount')
+                    cs = Stock(session['cs'])
+                    purchase = Purchase(cs, amount, session.get('user_id'))
+                    if purchase.validate():
+                        if purchase.completePurchase():
+                            flash("The stock has been bought!")
+                        else:
+                            flash("You do not have enough money for these stocks.")
+                    else:
+                        flash("The stock can not be bought at this time.")
+                return render_template('lookup.html', stock=cs)
             flash("Stock not found.")
             return render_template('lookup.html')
     else:
@@ -204,6 +220,11 @@ def logout():
     session.pop('user_id', None)
     return render_template('logged_out.html')
 
+@app.route('/t')
+def t():
+    stock = yf.Ticker('TSLA')
+    print(stock.info['previousClose'])
+    return "done"
 
 @app.route('/test')
 def test():

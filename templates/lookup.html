@@ -12,7 +12,7 @@
 </nav>
 <section class="wrapper">
     <form class="pure-form" action="#" method="POST" >
-        <input type="text" name="abbr" id="" class="pure-input-rounded" maxlength="5" style="text-transform:uppercase" autocomplete="off" required>
+        <input type="text" name="abbr" id="" class="pure-input-rounded" maxlength="5" style="text-transform:uppercase" autocomplete="off">
         <input type="submit" value="Search" name="" id="" class="pure-button">
         <br><br>
         {% with messages = get_flashed_messages() %}
@@ -51,7 +51,10 @@
             </tbody>
         </table>
         <img src="{{ url_for('static', filename='/img/' + stock.symbol + '.png') }}" alt="" width="100%">
-        <button class="pure-button button-success">BUY</button>
+        <form action="#" method="get" class="pure-form">
+            <input type="submit" value="BUY" class="pure-button button-success">
+            <input type="text" name="amount" placeholder="AMOUNT" class="pure-input-rounded">
+        </form>
         {% endif %}
 
     </form>
