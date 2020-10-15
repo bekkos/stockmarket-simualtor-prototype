@@ -2,8 +2,8 @@ $("#summaryBtn").click(function() {
     window.location.href = "/summary";
 });
 
-$("#buysellBtn").click(function() {
-    window.location.href = "/buysell";
+$("#profile").click(function() {
+    window.location.href = "/profile";
 });
 
 $("#lookupBtn").click(function() {

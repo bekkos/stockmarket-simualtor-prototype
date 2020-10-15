@@ -12,13 +12,16 @@ body {
     height: 90%;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
+    flex-direction: column;
     flex-wrap: wrap;
 }
 
 h3 {
     width: 100%;
     text-align: center;
+    font-size: 2rem;
+    margin-bottom: 1vh;
 }
 
 nav {

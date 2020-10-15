@@ -9,7 +9,7 @@
     <h1><a href="/home">BACK</a></h1>
 </nav>
 <section class="wrapper">
-    <h3>Wallet: ${{ user.wallet }}</h3>
+    <h3>Wallet: ${{ '%0.2f' | format(user.wallet) }}</h3>
     <table class="pure-table pure-table-horizontal">
         <thead>
             <tr>
@@ -24,17 +24,20 @@
         </thead>
 
         <tbody>
-            {% for stock in stocks %}
+            {% for i in range(stocks|length) %}
             <tr>
-                <th>{{ stock.name }}</th>
-                {% set time = datetime.fromtimestamp(stock.buyTime|int) %}
+                <th>{{ stocks[i].name }}</th>
+                {% set time = datetime.fromtimestamp(stocks[i].buyTime|int) %}
                 <th>{{ time }}</th>
-                <th>$ {{ stock.buyPrice }}</th>
-                <th>{{ stock.amount }}</th>
-                {% set unnecessaryCompelxWayOfDoingThis = Stock(stock.abbr) %}
-                <th>{{ unnecessaryCompelxWayOfDoingThis.currentPrice }}</th>
-                <th>$ {{'%0.2f' | format(unnecessaryCompelxWayOfDoingThis.currentPrice * stock.amount - stock.buyPrice|float * stock.amount) }}</th>
-                <th><button class="pure-button button-success">SELL</button></th>
+                <th>$ {{ stocks[i].buyPrice }}</th>
+                <th>{{ stocks[i].amount }}</th>
+                <th>$ {{ cs[i].currentPrice }}</th>
+                <th>$ {{'%0.2f' | format(cs[i].currentPrice * stocks[i].amount - stocks[i].buyPrice|float * stocks[i].amount) }}</th>
+                <th>
+                    <form action="#" method="POST">
+                        <input type="submit" name="{{ i }}" class="pure-button button-success" value="SELL">
+                    </form>
+                </th>
             </tr>
             {% endfor %}
 

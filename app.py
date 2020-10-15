@@ -8,6 +8,7 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
+
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite3'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -130,6 +131,29 @@ class Purchase():
         else:
             return False
      
+class Sell():
+
+    def __init__(self, ident, stocks):
+        self.id = int(ident)
+        self.stocks = stocks
+        self.amount = self.stocks[self.id].amount
+        self.dbid = self.stocks[self.id].id
+        self.cs = Stock(self.stocks[self.id].abbr)
+
+    def validate(self):
+        if self.cs.currentPrice > 0:
+            return True
+        else:
+            return False
+
+    def complete(self):
+        self.price = self.cs.currentPrice * float(self.amount)
+        user = User.query.get(session.get('user_id'))
+        user.wallet = user.wallet + self.price
+        active_stock = ActiveStocks.query.get(self.dbid)
+        db.session.delete(active_stock)
+        db.session.commit()
+        return True
 
 #Before Request
 @app.before_request
@@ -168,20 +192,35 @@ def home():
         return redirect(url_for('index'))
 
 
-@app.route('/summary')
+@app.route('/summary', methods=['GET', 'POST'])
 def summary():
     if session.get('logged_in'):
         stocks = ActiveStocks.query.filter_by(owner_id=session.get('user_id')).all()
+        currentStocksObjects = []
+        for i in range(len(stocks)):
+            cs = Stock(stocks[i].abbr)
+            currentStocksObjects.append(cs)
         user = User.query.get(session.get('user_id'))
-        return render_template('summary.html', stocks=stocks, Stock=Stock, datetime=datetime, user=user)
+        
+        if request.method == "POST":
+            req = request.form
+            for r in req:
+                transaction = Sell(r, stocks)
+                if transaction.validate():
+                    if transaction.complete():
+                        return redirect(url_for('summary'))
+                else:
+                    return False
+        return render_template('summary.html', stocks=stocks, datetime=datetime, user=user, cs=currentStocksObjects)
     else:
         return redirect(url_for('index'))
 
 @app.route('/lookup', methods=['GET', 'POST'])
 def lookup():
     if session.get('logged_in'):
+        user = User.query.get(session.get('user_id'))
         if request.method == "GET":
-            return render_template('lookup.html')
+            return render_template('lookup.html', user=user)
         elif request.method == "POST":
             if request.form.get('abbr'):
                 abbr = request.form.get('abbr')
@@ -190,9 +229,10 @@ def lookup():
                     session['cs'] = abbr
                 except:
                     flash("Stock not found.")
-                    return render_template('lookup.html')
+                    return render_template('lookup.html', user=user)
                 stock.plotData()
-                return render_template('lookup.html', stock=stock)
+                
+                return render_template('lookup.html', stock=stock, user=user)
             else:
                 if request.form.get('amount'):
                     amount = request.form.get('amount')
@@ -205,9 +245,9 @@ def lookup():
                             flash("You do not have enough money for these stocks.")
                     else:
                         flash("The stock can not be bought at this time.")
-                return render_template('lookup.html', stock=cs)
+                return render_template('lookup.html', stock=cs, user=user)
             flash("Stock not found.")
-            return render_template('lookup.html')
+            return render_template('lookup.html', user=user)
     else:
         return redirect(url_for('index'))
 
@@ -220,24 +260,6 @@ def logout():
     session.pop('user_id', None)
     return render_template('logged_out.html')
 
-@app.route('/t')
-def t():
-    stock = yf.Ticker('TSLA')
-    print(stock.info['previousClose'])
-    return "done"
-
-@app.route('/test')
-def test():
-    if session.get('logged_in'):
-        stock = Stock("ALKS")
-        purchase = Purchase(stock, 500, session.get('user_id'))
-        if purchase.validate():
-            if purchase.completePurchase():
-                return "Purchase Completed"
-            else:
-                return "Not enough $$$"
-    else:
-        return redirect(url_for("index"))
 
 #Error handling
 @app.errorhandler(404)

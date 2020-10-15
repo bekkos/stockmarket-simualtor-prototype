@@ -10,9 +10,10 @@
 <nav>
     <h1><a href="/home">BACK</a></h1>
 </nav>
+<h3>Wallet: $ {{ '%0.2f' | format(user.wallet) }}</h3>
 <section class="wrapper">
     <form class="pure-form" action="#" method="POST" >
-        <input type="text" name="abbr" id="" class="pure-input-rounded" maxlength="5" style="text-transform:uppercase" autocomplete="off">
+        <input type="text" name="abbr" id="" class="pure-input-rounded" maxlength="5" style="text-transform:uppercase" autocomplete="off" placeholder="Example: TSLA">
         <input type="submit" value="Search" name="" id="" class="pure-button">
         <br><br>
         {% with messages = get_flashed_messages() %}
@@ -41,19 +42,19 @@
             <tbody>
                 <tr>
                     <th>{{ stock.shortName }}</th>
-                    <th>{{ stock.dayLow }}</th>
-                    <th>{{ stock.dayHigh }}</th>
-                    <th>{{ stock.currentPrice }}</th>
+                    <th>$ {{ stock.dayLow }}</th>
+                    <th>$ {{ stock.dayHigh }}</th>
+                    <th>$ {{ stock.currentPrice }}</th>
                     <th>{{ stock.currentAskSize }}</th>
-                    <th>{{ stock.currentBid }}</th>
+                    <th>$ {{ stock.currentBid }}</th>
                     <th>{{ stock.currentBidSize }}</th>
                 </tr>
             </tbody>
         </table>
-        <img src="{{ url_for('static', filename='/img/' + stock.symbol + '.png') }}" alt="" width="100%">
-        <form action="#" method="get" class="pure-form">
+        <img src="{{ url_for('static', filename='/img/' + stock.symbol + '.png') }}" alt="" width="100%" height="60%">
+        <form action="#" method="get" class="pure-form" autocomplete="off">
             <input type="submit" value="BUY" class="pure-button button-success">
-            <input type="text" name="amount" placeholder="AMOUNT" class="pure-input-rounded">
+            <input type="text" name="amount" placeholder="AMOUNT" class="pure-input-rounded" autocomplete="off">
         </form>
         {% endif %}
 
