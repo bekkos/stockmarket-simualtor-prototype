@@ -45,3 +45,9 @@ tbody tr th {
 .msg {
     color: black;
 }
+
+@media screen and (max-width: 992px) {
+    table {
+        width: 100%;
+    }    
+}
