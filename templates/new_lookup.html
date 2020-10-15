@@ -1,0 +1,60 @@
+{% extends 'system_layout.html' %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='/css/lookup.css') }}">
+{% endblock %}
+
+{% block body %}
+<form class="pure-form" action="#" method="POST" >
+    <input type="text" name="abbr" id="" class="pure-input-rounded" maxlength="5" style="text-transform:uppercase" autocomplete="off" placeholder="E.g. TSLA">
+    <input type="submit" value="Search" name="" id="" class="pure-button button-success success-btn">
+    <br><br>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class=flashes>
+            {% for message in messages %}
+            <li class="msg">{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+    
+    {% if stock %}
+    <table class="pure-table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Day Low</th>
+                <th>Day High</th>
+                <th>Ask Price</th>
+                <th>Ask Size</th>
+                <th>Bid Price</th>
+                <th>Bid Size</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th>{{ stock.shortName }}</th>
+                <th>$ {{ stock.dayLow }}</th>
+                <th>$ {{ stock.dayHigh }}</th>
+                <th>$ {{ stock.currentPrice }}</th>
+                <th>{{ stock.currentAskSize }}</th>
+                <th>$ {{ stock.currentBid }}</th>
+                <th>{{ stock.currentBidSize }}</th>
+            </tr>
+        </tbody>
+    </table>
+    <section class="image-container">
+        <img src="{{ url_for('static', filename='/img/' + stock.symbol + '.png') }}" alt="" width="45%">
+        <div>
+            <form action="#" method="get" class="pure-form" autocomplete="off">
+                <input type="submit" value="BUY" class="pure-button button-success">
+                <input type="text" name="amount" placeholder="AMOUNT" class="pure-input-rounded" autocomplete="off">
+                <p>There is a 1% brokerage fee for every transaction.</p>
+            </form>
+        </div>
+    </section>
+    {% endif %}
+
+</form>
+{% endblock %}

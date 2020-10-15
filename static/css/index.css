@@ -1,5 +1,5 @@
 body {
-    background-color: #0fa3b1ff;
+    background-color: #4F99BE;
 }
 
 .wrapper {
@@ -22,7 +22,7 @@ h1 {
     right:0;
     top:0;
     
-    border-top: 100vh solid #eddea4ff;
+    border-top: 100vh solid white;
     border-left: 15vw solid transparent;
     position: fixed;
 }
@@ -30,4 +30,12 @@ h1 {
 form {
     width: 100%;
     margin: auto;
+}
+
+input {
+    border-radius: 10px !important;
+}
+
+p {
+    color: white;
 }

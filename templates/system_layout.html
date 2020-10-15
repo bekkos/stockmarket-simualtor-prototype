@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wallstreet Capitalist</title>
+    <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.3/build/pure-min.css" integrity="sha384-cg6SkqEOCV1NbJoCu11+bm0NvBRc8IYLRGXkmNrqUBfTjmMYwNKPWBTIKyw9mHNJ" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='/css/general.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='/css/system_general.css') }}">
+    
+    {% block head %}
+    {% endblock %}
+</head>
+<body>
+    {% block navigation %}
+    <nav>
+        <section class="profile-corner">
+            <h3 class="username">{{ user.username }}</h3>
+            <h3 class="wallet">${{'%0.2f' | format(user.wallet) }}</h3>
+        </section>
+        <section class="list-container">
+            <ul>
+                <li><a href="/summary">Summary</a></li>
+                <li><a href="/lookup">Stock Lookup/Buy</a></li>
+                <li><a href="#">Profile</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </section>
+        
+    </nav>
+    {% endblock %}
+
+    {% block body %}
+    {% endblock %}
+</body>
+</html>

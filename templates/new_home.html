@@ -1,0 +1,45 @@
+{% extends 'system_layout.html' %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='/css/summary.css') }}">
+{% endblock%}
+
+
+
+{% block body %}
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Buy Date</th>
+                <th>Buy Price</th>
+                <th>Amount</th>
+                <th>Sell Price</th>
+                <th>Profit</th>
+                <th>Options</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for i in range(stocks|length) %}
+            <tr>
+                <th>{{ stocks[i].name }}</th>
+                {% set time = datetime.fromtimestamp(stocks[i].buyTime|int) %}
+                <th>{{ time }}</th>
+                <th>$ {{ stocks[i].buyPrice }}</th>
+                <th>{{ stocks[i].amount }}</th>
+                <th>$ {{ '%0.2f' | format(cs[i]) }}</th>
+                <th>$ {{'%0.2f' | format(cs[i] * stocks[i].amount - stocks[i].buyPrice|float * stocks[i].amount) }}</th>
+                <th>
+                    <form action="#" method="POST">
+                        <input type="submit" name="{{ i }}" class="pure-button button-success" value="SELL">
+                    </form>
+                </th>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock%}
+
+

@@ -110,7 +110,7 @@ class Purchase():
 
 
     def validate(self):
-        if self.stock.currentPrice >= 1:
+        if self.stock.currentPrice >= 1 and float(self.amount) >= 0.1:
             return True
         else:
             return False
@@ -188,7 +188,8 @@ def register():
 @app.route('/home')
 def home():
     if session.get('logged_in'):
-        return render_template('home.html')
+        user = User.query.get(session.get('user_id'))
+        return redirect(url_for('summary'))
     else:
         return redirect(url_for('index'))
 
@@ -212,7 +213,7 @@ def summary():
                         return redirect(url_for('summary'))
                 else:
                     return False
-        return render_template('summary.html', stocks=stocks, datetime=datetime, user=user, cs=currentStocksObjects)
+        return render_template('new_home.html', stocks=stocks, datetime=datetime, user=user, cs=currentStocksObjects)
     else:
         return redirect(url_for('index'))
 
@@ -221,7 +222,7 @@ def lookup():
     if session.get('logged_in'):
         user = User.query.get(session.get('user_id'))
         if request.method == "GET":
-            return render_template('lookup.html', user=user)
+            return render_template('new_lookup.html', user=user)
         elif request.method == "POST":
             if request.form.get('abbr'):
                 abbr = request.form.get('abbr')
@@ -230,10 +231,10 @@ def lookup():
                     session['cs'] = abbr
                 except:
                     flash("Stock not found.")
-                    return render_template('lookup.html', user=user)
+                    return render_template('new_lookup.html', user=user)
                 stock.plotData()
                 
-                return render_template('lookup.html', stock=stock, user=user)
+                return render_template('new_lookup.html', stock=stock, user=user)
             else:
                 if request.form.get('amount'):
                     amount = request.form.get('amount')
@@ -246,12 +247,20 @@ def lookup():
                             flash("You do not have enough money for these stocks.")
                     else:
                         flash("The stock can not be bought at this time.")
-                return render_template('lookup.html', stock=cs, user=user)
+                return render_template('new_lookup.html', stock=cs, user=user)
             flash("Stock not found.")
-            return render_template('lookup.html', user=user)
+            return render_template('new_lookup.html', user=user)
     else:
         return redirect(url_for('index'))
 
+
+@app.route('/wip')
+def wip():
+    if session.get('logged_in'):
+        user = User.query.get(session.get('user_id'))
+        return render_template('new_lookup.html', user=user)
+    else:
+        return redirect(url_for('index'))
 
 
 @app.route('/logout')
