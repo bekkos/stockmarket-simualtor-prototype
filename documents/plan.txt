@@ -31,3 +31,23 @@ with the correct information.
 If the user does not have enough money in their
 wallet it will retun false, otherwise it will return 
 true.
+
+
+
+# temp
+name 
+buy date 
+buy price 
+amount 
+sell price 
+profit 
+options
+
+
+
+owner_id = db.Column(db.Integer)
+    name = db.Column(db.String)
+    abbr = db.Column(db.String)
+    buyPrice = db.Column(db.Float)
+    buyTime = db.Column(db.String)
+    amount = db.Column(db.Integer

@@ -7,6 +7,7 @@ import yfinance as yf
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+from yahoo_fin import stock_info as si
 
 
 app = Flask(__name__)
@@ -83,7 +84,7 @@ class Stock():
 
     def __init__(self, abbr):
         self.cs = yf.Ticker(abbr)
-        self.currentPrice = self.cs.info['regularMarketPrice']
+        self.currentPrice = round(si.get_live_price(abbr), 2)
         self.dayHigh = self.cs.info['dayHigh']
         self.dayLow = self.cs.info['dayLow']
         self.currentAskSize = self.cs.info['askSize']
@@ -198,7 +199,7 @@ def summary():
         stocks = ActiveStocks.query.filter_by(owner_id=session.get('user_id')).all()
         currentStocksObjects = []
         for i in range(len(stocks)):
-            cs = Stock(stocks[i].abbr)
+            cs = si.get_live_price(stocks[i].abbr)
             currentStocksObjects.append(cs)
         user = User.query.get(session.get('user_id'))
         

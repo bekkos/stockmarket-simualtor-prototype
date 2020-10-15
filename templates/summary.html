@@ -31,8 +31,8 @@
                 <th>{{ time }}</th>
                 <th>$ {{ stocks[i].buyPrice }}</th>
                 <th>{{ stocks[i].amount }}</th>
-                <th>$ {{ cs[i].currentPrice }}</th>
-                <th>$ {{'%0.2f' | format(cs[i].currentPrice * stocks[i].amount - stocks[i].buyPrice|float * stocks[i].amount) }}</th>
+                <th>$ {{ '%0.2f' | format(cs[i]) }}</th>
+                <th>$ {{'%0.2f' | format(cs[i] * stocks[i].amount - stocks[i].buyPrice|float * stocks[i].amount) }}</th>
                 <th>
                     <form action="#" method="POST">
                         <input type="submit" name="{{ i }}" class="pure-button button-success" value="SELL">
